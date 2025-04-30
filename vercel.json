@@ -1,14 +1,19 @@
-{  
-    "version":2,
+{
+    "version": 2,
     "builds": [
-      { "src": "api/index.py", 
-      "use": "@vercel/python",
-      "config": {
-        "runtime": "python3.11"  
-      } }
+      {
+        "src": "api/index.py",
+        "use": "@vercel/python",
+        "config": {
+          "runtime": "python3.11",
+          "installCommand": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && source $HOME/.cargo/env && pip install -r requirements.txt"
+        }
+      }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "api/index.py" }
+      {
+        "src": "/(.*)",
+        "dest": "api/index.py"
+      }
     ]
   }
-  
