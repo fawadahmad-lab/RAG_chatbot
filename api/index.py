@@ -9,27 +9,30 @@ from langchain.chains import create_retrieval_chain
 from sentence_transformers import SentenceTransformer
 from langchain_huggingface import HuggingFaceEmbeddings
 from dotenv import load_dotenv
-load_dotenv()
-
 import os
+
+# Load .env
+load_dotenv()
 api_key = os.getenv("MISTRAL_API_KEY")
 
+# Initialize Flask
+app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
-app = Flask(__name__)
-
-# Load documents and embeddings only once
-loader = TextLoader(r"D:\langchain\FlaskAPP\Cleaned_UIIT_Info_processed.txt")
+# Load documents and embeddings
+loader = TextLoader("Cleaned_UIIT_Info_processed.txt")
 docs = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=150)
 documents = text_splitter.split_documents(docs)
 text_data = [doc.page_content for doc in documents]
 
+# Embeddings
 model = SentenceTransformer('all-MiniLM-L6-v2')
-embeddings = model.encode(text_data, convert_to_numpy=True)
+model.encode(text_data, convert_to_numpy=True)  # warm-up
 embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 vector_store = FAISS.from_texts(text_data, embedding_model)
 retriever = vector_store.as_retriever()
 
+# LLM setup
 llm = ChatMistralAI(mistral_api_key=api_key)
 prompt = ChatPromptTemplate.from_template("""
 Answer strictly based on the context below in one line. If the question is not answerable from the context, say "I don't know." Ignore greetings/general questions.
@@ -58,5 +61,6 @@ def ask():
     except Exception as e:
         return jsonify({"response": f"Error: {str(e)}"})
 
-if __name__ == "__main__":
-    app.run(debug=False, use_reloader=False)
+# Required for Vercel
+def handler(environ, start_response):
+    return app(environ, start_response)
