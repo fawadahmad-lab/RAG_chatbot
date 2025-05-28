@@ -6,7 +6,7 @@
         "use": "@vercel/python",
         "config": {
           "runtime": "python3.11",
-                  "installCommand": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && source $HOME/.cargo/env && pip install -r requirements.txt"
+                  "installCommand": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && source $HOME/.cargo/env && pip install --use-deprecated=legacy-resolver -r requirements.txt"
         }
       }
     ],
