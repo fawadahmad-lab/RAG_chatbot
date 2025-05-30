@@ -68,6 +68,7 @@ Open your browser and go to:
 ├── static/            # CSS and JS files
 ├── templates/         # Jinja2 HTML templates
 └── data/              # Your document files
+└── requirements.txt   # requirements
 ```
 
 ## Usage
@@ -84,4 +85,4 @@ Open your browser and go to:
 
 ## License
 
-MIT License © \[Your Name]
+MIT License © Fawad Ahmad
