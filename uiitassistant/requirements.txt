@@ -1,0 +1,6 @@
+langchain-groq
+langchain-community
+langchain-nomic
+faiss-cpu
+python-dotenv
+fastapi
