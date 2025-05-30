@@ -19,7 +19,7 @@ import getpass
 load_dotenv()
 groq_api_key = os.getenv("GROQ_API_KEY")
 if not os.getenv("NOMIC_API_KEY"):
-    os.environ["NOMIC_API_KEY"] = getpass.getpass("nk-L8dDKRHKz1WaLrR3khfSOPrOcWTvhsZOq8JTZZAdRRE")
+    os.environ["NOMIC_API_KEY"] = getpass.getpass("")
 
 app = FastAPI()
 
